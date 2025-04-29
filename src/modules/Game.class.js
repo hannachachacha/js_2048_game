@@ -57,6 +57,10 @@ class Game {
   }
 
   handleKeyDown(e) {
+    if (this.status === 'lose' || this.status === 'win') {
+      return;
+    }
+
     if (e.code === 'ArrowLeft') {
       this.moveLeft();
     }
@@ -149,29 +153,23 @@ class Game {
     const prevBoard = JSON.stringify(this.board);
 
     for (let row = 0; row < this.board.length; row++) {
-      const newRow = [];
-
-      for (let col = this.board[row].length - 1; col >= 0; col--) {
-        if (this.board[row][col] !== 0) {
-          newRow.push(this.board[row][col]);
-        }
-      }
+      let newRow = this.board[row]
+        .filter(val => val !== 0)
+        .reverse();
 
       for (let i = 0; i < newRow.length - 1; i++) {
         if (newRow[i] === newRow[i + 1]) {
           newRow[i] *= 2;
           this.score += newRow[i];
           newRow.splice(i + 1, 1);
-          newRow.push(0);
-          i++;
         }
       }
 
-      while (newRow.length < this.board[row].length) {
-        newRow.unshift(0);
+      while (newRow.length < 4) {
+        newRow.push(0);
       }
 
-      this.board[row] = newRow;
+      this.board[row] = newRow.reverse();
     }
 
     const newBoard = JSON.stringify(this.board);
