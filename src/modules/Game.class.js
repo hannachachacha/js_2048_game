@@ -153,9 +153,7 @@ class Game {
     const prevBoard = JSON.stringify(this.board);
 
     for (let row = 0; row < this.board.length; row++) {
-      let newRow = this.board[row]
-        .filter(val => val !== 0)
-        .reverse();
+      const newRow = this.board[row].filter((val) => val !== 0).reverse();
 
       for (let i = 0; i < newRow.length - 1; i++) {
         if (newRow[i] === newRow[i + 1]) {
